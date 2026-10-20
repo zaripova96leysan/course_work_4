@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список рассылок</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; max-width: 1000px; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { display: inline-block; padding: 10px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+ {% if messages %}
+        <div style="padding: 15px; margin-bottom: 20px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px;">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <h1>Список рассылок</h1>
+    <a href="{% url 'mailing_create' %}" class="btn">Создать рассылку</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Сообщение</th>
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Статус</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mailing in mailings %}
+            <tr>
+                <td>{{ mailing.id }}</td>
+                <td>{{ mailing.message.subject }}</td>
+                <td>{{ mailing.start_time|date:"d.m.Y H:i" }}</td>
+                <td>{{ mailing.end_time|date:"d.m.Y H:i" }}</td>
+                <td>{{ mailing.status }}</td>
+                <td>
+    <a href="{% url 'mailing_send' mailing.id %}" style="color: green; font-weight: bold; margin-right: 10px;">Запустить</a>
+    <a href="{% url 'mailing_update' mailing.id %}" style="color: blue; margin-right: 10px;">Редактировать</a>
+    <a href="{% url 'mailing_delete' mailing.id %}" style="color: red;">Удалить</a>
+</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">Пока нет ни одной рассылки.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

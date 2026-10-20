@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Запуск рассылки</title></head>
+<body>
+    <h1>Запустить рассылку?</h1>
+    <p>Вы уверены, что хотите отправить рассылку <strong>"{{ mailing.message.subject }}"</strong>?</p>
+    <p>Количество получателей: <strong>{{ mailing.recipients.count }}</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" style="background-color: #007bff; color: white; padding: 10px 15px; border: none; cursor: pointer; border-radius: 5px;">Да, отправить</button>
+        <a href="{% url 'mailing_list' %}" style="margin-left: 10px;">Отмена</a>
+    </form>
+</body>
+</html>

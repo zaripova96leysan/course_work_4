@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рассылка</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-container { max-width: 600px; margin-top: 20px; }
+        .form-group { margin-bottom: 15px; }
+        input, select, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .error { color: red; font-weight: bold; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Рассылка</h1>
+
+    {% if form.non_field_errors %}
+        <div class="error">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <div class="form-container">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div style="color: red;">{{ field.errors }}</div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small style="color: gray;">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit">Сохранить</button>
+            <a href="{% url 'mailing_list' %}" style="margin-left: 10px;">Отмена</a>
+        </form>
+    </div>
+</body>
+</html>
